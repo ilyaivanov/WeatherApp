@@ -3,6 +3,7 @@ import {FlatList, StyleSheet} from 'react-native';
 import {View, Text, Button} from 'react-native-ui-lib';
 import {Navigation} from 'react-native-navigation';
 import CityCard from "./CityCard";
+import Separator from "./Separator";
 
 
 class App extends Component {
@@ -75,16 +76,15 @@ class App extends Component {
           keyExtractor={(item) => item.id}
           data={cities}
           contentContainerStyle={styles.containers}
-          ItemSeparatorComponent={() => <View style={styles.separator}/>}
+          ItemSeparatorComponent={() => <Separator/>}
           renderItem={({item}) => <CityCard city={item} onPress={this.pushScreen}/>}
-          Li
         />
       </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flex: 1,
     // justifyContent: 'center',
@@ -95,10 +95,6 @@ const styles = StyleSheet.create({
     padding: 20,
     flex: 1,
     justifyContent: 'center',
-  },
-  separator: {
-    height: StyleSheet.hairlineWidth,
-    backgroundColor: '#b1b1b1',
   },
   welcome: {
     fontSize: 20,
