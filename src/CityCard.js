@@ -14,8 +14,8 @@ const weatherTypes = {
   'Clear': 'c',
 };
 
-export default ({city}) => (
-  <TouchableOpacity style={styles.cardContainer}>
+export default ({city, onPress}) => (
+  <TouchableOpacity style={styles.cardContainer} onPress={() => onPress(city)}>
     <Text style={styles.cardText}>{city.name}</Text>
     {
       city.isLoading ?
