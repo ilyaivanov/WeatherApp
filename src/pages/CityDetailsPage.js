@@ -1,15 +1,13 @@
 import React, { PureComponent } from "react";
 import { FlatList, StyleSheet } from "react-native";
 import { Text, View } from "react-native-ui-lib";
-import Separator from "./components/Separator";
-import WeatherInfo from "./components/WeatherInfo";
-import { style } from "./const";
-import CityCard from "./components/CityCard";
+import Separator from "../components/Separator";
+import { style } from "../const";
+import CityCard from "../components/CityCard";
 
 class CityDetailsPage extends PureComponent {
   render() {
     const { city } = this.props;
-    console.log(city)
     return (
       <View style={styles.container}>
         <FlatList

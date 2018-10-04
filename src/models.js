@@ -1,18 +1,4 @@
 import moment from 'moment';
-export const cities = [
-  {
-    title: "San Francisco",
-    name: "San Francisco",
-
-    woeid: 2487956,
-    id: 2487956 + "",
-
-    location_type: "City",
-    latt_long: "37.777119, -122.41964",
-
-    isLoading: true
-  }
-];
 
 const cityInfo = responseCityDetails => ({
   name: responseCityDetails.title,

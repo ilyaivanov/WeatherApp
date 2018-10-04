@@ -1,47 +1,31 @@
 import React, { Component } from "react";
 import { FlatList, StyleSheet } from "react-native";
+import { connect } from "remx";
 import { View } from "react-native-ui-lib";
 import { Navigation } from "react-native-navigation";
-import CityCard from "./components/CityCard";
-import Separator from "./components/Separator";
-import { style } from "./const";
-import { cities } from "./models";
-import update from "immutability-helper";
-import { findIndexById } from "./array.utils";
-import { getCityDetails } from "./remote";
+
+import CityCard from "../components/CityCard";
+import Separator from "../components/Separator";
+import { style } from "../const";
+import { storeGetters, storeSetters } from "../state/store";
+import { fetchCityDetails } from "../state/actions";
 
 class CitiesPage extends Component {
-  state = {
-    cities
-  };
-
   constructor(props) {
     super(props);
     Navigation.events().bindComponent(this);
   }
 
   componentDidMount() {
-    this.state.cities.forEach(city => this.fetchCityDetails(city.id));
+    this.props.cities.forEach(city => fetchCityDetails(city.id));
 
     Navigation.events().registerCommandListener((eventName, payload) => {
       if (eventName === "dismissModal" && payload.componentId === "AddCity") {
-        this.setState({
-          cities: update(this.state.cities, { $push: [payload.mergeOptions] })
-        });
-        this.fetchCityDetails(payload.mergeOptions.id);
+        storeSetters.addCity(payload.mergeOptions);
+        fetchCityDetails(payload.mergeOptions.id);
       }
     });
   }
-
-  fetchCityDetails = cityId =>
-    getCityDetails(cityId).then(details => {
-      const cities = update(this.state.cities, {
-        [findIndexById(this.state.cities, cityId)]: {
-          $merge: details
-        }
-      });
-      this.setState({ cities });
-    });
 
   static get options() {
     return {
@@ -95,7 +79,7 @@ class CitiesPage extends Component {
       <View style={styles.container}>
         <FlatList
           keyExtractor={item => item.id}
-          data={this.state.cities}
+          data={this.props.cities}
           contentContainerStyle={styles.containers}
           ItemSeparatorComponent={() => <Separator />}
           renderItem={({ item }) => (
@@ -129,4 +113,8 @@ export const styles = StyleSheet.create({
   }
 });
 
-export default CitiesPage;
+const mapStateToProps = () => ({
+  cities: storeGetters.getCities()
+});
+
+export default connect(mapStateToProps)(CitiesPage);

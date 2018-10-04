@@ -3,8 +3,8 @@ import { FlatList } from "react-native";
 import { Text, TouchableOpacity, View } from "react-native-ui-lib";
 import { Navigation } from "react-native-navigation";
 import { SearchBar } from "react-native-elements";
-import Separator from "./components/Separator";
-import { findCities } from "./remote";
+import Separator from "../components/Separator";
+import { findCities } from "../remote";
 import debounce from "lodash/debounce";
 
 class AddPost extends PureComponent {

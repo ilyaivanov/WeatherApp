@@ -1,8 +1,8 @@
 import {Navigation} from 'react-native-navigation';
 
-import CitiesPage from './CitiesPage';
-import CityDetailsPage from './CityDetailsPage';
-import AddCityPage from "./AddCityPage";
+import CitiesPage from './pages/CitiesPage';
+import CityDetailsPage from './pages/CityDetailsPage';
+import AddCityPage from "./pages/AddCityPage";
 
 export function registerScreens() {
 

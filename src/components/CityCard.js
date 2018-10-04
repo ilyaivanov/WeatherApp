@@ -2,8 +2,14 @@ import {ActivityIndicator, StyleSheet, Text, TouchableOpacity, View} from "react
 import React from "react";
 import WeatherInfo from "./WeatherInfo";
 
+
+const SafeTouchable = (props) => {
+  const Element = props.onPress ? TouchableOpacity : View;
+  return <Element {...props}>{props.children}</Element>
+}
+
 export default ({city, onPress}) => (
-  <TouchableOpacity style={styles.cardContainer} onPress={() => onPress(city)}>
+  <SafeTouchable style={styles.cardContainer} onPress={onPress && (() => onPress(city))}>
     <View>
       <Text style={styles.cardText}>{city.name}</Text>
       <Text style={styles.country}>{city.parent}</Text>
@@ -15,7 +21,7 @@ export default ({city, onPress}) => (
         </View> :
         <WeatherInfo city={city}/>
     }
-  </TouchableOpacity>
+  </SafeTouchable>
 );
 
 const styles = StyleSheet.create({
