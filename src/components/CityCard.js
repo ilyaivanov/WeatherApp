@@ -4,7 +4,10 @@ import WeatherInfo from "./WeatherInfo";
 
 export default ({city, onPress}) => (
   <TouchableOpacity style={styles.cardContainer} onPress={() => onPress(city)}>
-    <Text style={styles.cardText}>{city.name}</Text>
+    <View>
+      <Text style={styles.cardText}>{city.name}</Text>
+      <Text style={styles.country}>{city.parent}</Text>
+    </View>
     {
       city.isLoading ?
         <View style={{paddingRight: 20}}>
@@ -26,5 +29,9 @@ const styles = StyleSheet.create({
     fontSize: 25,
     color: '#424242'
   },
+  country:{
+    fontSize: 12,
+    color: '#5b5b5b'
+  }
 });
 

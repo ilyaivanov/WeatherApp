@@ -1,13 +1,16 @@
-import React, {Component} from 'react';
-import {FlatList, StyleSheet} from 'react-native';
-import {View} from 'react-native-ui-lib';
-import {Navigation} from 'react-native-navigation';
+import React, {Component} from "react";
+import {FlatList, StyleSheet} from "react-native";
+import {View} from "react-native-ui-lib";
+import {Navigation} from "react-native-navigation";
 import CityCard from "./components/CityCard";
 import Separator from "./components/Separator";
-import {style} from './const';
-import {cities} from "./models";
+import {style} from "./const";
+import {cities, mapCityDetails} from "./models";
 
 class CitiesPage extends Component {
+  state = {
+    cities
+  };
 
   constructor(props) {
     super(props);
@@ -15,13 +18,23 @@ class CitiesPage extends Component {
     Navigation.events().bindComponent(this);
   }
 
+  componentDidMount() {
+    fetch(
+      `https://www.metaweather.com/api/location/${this.state.cities[0].id}/`
+    )
+      .then(response => response.json())
+      .then(details => {
+        this.setState({cities: [mapCityDetails(details)]});
+      });
+  }
+
   static get options() {
     return {
       topBar: {
         rightButtons: [
           {
-            id: 'addPost',
-            text: 'Add'
+            id: "addPost",
+            text: "Add"
           }
         ]
       }
@@ -29,21 +42,19 @@ class CitiesPage extends Component {
   }
 
   navigationButtonPressed({buttonId}) {
-    if (buttonId === 'addPost') {
+    if (buttonId === "addPost") {
       Navigation.showModal({
         stack: {
-          children: [{
-            component: {
-              name: 'weatherApp.AddCity',
+          children: [
+            {
+              component: {
+                name: "weatherApp.AddCity"
+              }
             }
-          }]
+          ]
         }
       });
     }
-  }
-
-  state = {
-    loading: false
   }
 
   // navigator: PropTypes.object,
@@ -52,14 +63,14 @@ class CitiesPage extends Component {
   pushScreen(city) {
     Navigation.push(this.props.componentId, {
       component: {
-        name: 'weatherApp.CityDetailsPage',
+        name: "weatherApp.CityDetailsPage",
         passProps: {
           city
         },
         options: {
           topBar: {
             title: {
-              text: city.name,
+              text: city.name
             }
           }
         }
@@ -68,16 +79,16 @@ class CitiesPage extends Component {
   }
 
   render() {
-
-
     return (
       <View style={styles.container}>
         <FlatList
-          keyExtractor={(item) => item.id}
-          data={cities}
+          keyExtractor={item => item.id}
+          data={this.state.cities}
           contentContainerStyle={styles.containers}
           ItemSeparatorComponent={() => <Separator/>}
-          renderItem={({item}) => <CityCard city={item} onPress={this.pushScreen}/>}
+          renderItem={({item}) => (
+            <CityCard city={item} onPress={this.pushScreen}/>
+          )}
         />
       </View>
     );
@@ -87,23 +98,23 @@ class CitiesPage extends Component {
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: style.backgroundColor,
+    backgroundColor: style.backgroundColor
   },
   containers: {
     padding: 20,
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center"
   },
   welcome: {
     fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+    textAlign: "center",
+    margin: 10
   },
   instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 12,
-  },
+    textAlign: "center",
+    color: "#333333",
+    marginBottom: 12
+  }
 });
 
 export default CitiesPage;

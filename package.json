@@ -8,6 +8,9 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.1.2",
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-preset-react-native": "^4.0.1",
+    "babel-preset-react-native-stage-0": "^1.0.1",
     "moment": "^2.22.2",
     "prettier": "^1.14.3",
     "react": "16.5.0",
@@ -24,6 +27,9 @@
     "react-test-renderer": "16.5.0"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "transform": {
+      "^.+\\.(js)$": "<rootDir>/node_modules/react-native/jest/preprocessor.js"
+    }
   }
 }
