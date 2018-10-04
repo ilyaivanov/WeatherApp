@@ -11,6 +11,8 @@
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-preset-react-native": "^4.0.1",
     "babel-preset-react-native-stage-0": "^1.0.1",
+    "immutability-helper": "^2.8.1",
+    "lodash": "^4.17.11",
     "moment": "^2.22.2",
     "prettier": "^1.14.3",
     "react": "16.5.0",

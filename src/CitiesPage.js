@@ -1,11 +1,18 @@
-import React, {Component} from "react";
-import {FlatList, StyleSheet} from "react-native";
-import {View} from "react-native-ui-lib";
-import {Navigation} from "react-native-navigation";
+import React, { Component } from "react";
+import { FlatList, StyleSheet } from "react-native";
+import { View } from "react-native-ui-lib";
+import { Navigation } from "react-native-navigation";
 import CityCard from "./components/CityCard";
 import Separator from "./components/Separator";
-import {style} from "./const";
-import {cities, mapCityDetails} from "./models";
+import { style } from "./const";
+import { cities, mapCityDetails } from "./models";
+import update from "immutability-helper";
+import { findIndexById } from "./array.utils";
+
+const l = e => {
+  console.log(e);
+  return e;
+};
 
 class CitiesPage extends Component {
   state = {
@@ -19,14 +26,31 @@ class CitiesPage extends Component {
   }
 
   componentDidMount() {
-    fetch(
-      `https://www.metaweather.com/api/location/${this.state.cities[0].id}/`
-    )
+    this.fetchCityDetails(this.state.cities[0].id);
+
+    Navigation.events().registerCommandListener((eventName, payload) => {
+      if (eventName === "dismissModal" && payload.componentId === "AddCity") {
+        this.setState({
+          cities: update(this.state.cities, { $push: [payload.mergeOptions] })
+        });
+        this.fetchCityDetails(payload.mergeOptions.id);
+      }
+    });
+  }
+
+  fetchCityDetails = cityId => {
+    fetch(`https://www.metaweather.com/api/location/${cityId}/`)
       .then(response => response.json())
       .then(details => {
-        this.setState({cities: [mapCityDetails(details)]});
+        const cities = update(this.state.cities, {
+          [findIndexById(this.state.cities, cityId)]: {
+            $merge: mapCityDetails(details)
+          }
+        });
+
+        this.setState({ cities });
       });
-  }
+  };
 
   static get options() {
     return {
@@ -41,14 +65,15 @@ class CitiesPage extends Component {
     };
   }
 
-  navigationButtonPressed({buttonId}) {
+  navigationButtonPressed({ buttonId }) {
     if (buttonId === "addPost") {
       Navigation.showModal({
         stack: {
           children: [
             {
               component: {
-                name: "weatherApp.AddCity"
+                name: "weatherApp.AddCity",
+                id: "AddCity"
               }
             }
           ]
@@ -85,9 +110,9 @@ class CitiesPage extends Component {
           keyExtractor={item => item.id}
           data={this.state.cities}
           contentContainerStyle={styles.containers}
-          ItemSeparatorComponent={() => <Separator/>}
-          renderItem={({item}) => (
-            <CityCard city={item} onPress={this.pushScreen}/>
+          ItemSeparatorComponent={() => <Separator />}
+          renderItem={({ item }) => (
+            <CityCard city={item} onPress={this.pushScreen} />
           )}
         />
       </View>
