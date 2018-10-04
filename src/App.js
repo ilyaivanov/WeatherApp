@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {FlatList, StyleSheet} from 'react-native';
 import {View, Text, Button} from 'react-native-ui-lib';
 import {Navigation} from 'react-native-navigation';
-import CityCard from "./CityCard";
+import CityCard from "./components/CityCard";
 import Separator from "./Separator";
 
 

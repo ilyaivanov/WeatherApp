@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
-import CityCard from "./src/CityCard";
+import CityCard from "./src/components/CityCard";
 
 export default class App extends Component {
   render() {

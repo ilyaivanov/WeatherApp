@@ -63,6 +63,7 @@ class AddPost extends PureComponent {
       {"title": "Santa Cruz de Tenerife"},
       {"title": "Santa Fe"},
     ];
+
     return (
       <View style={{backgroundColor: '#F5FCFF', flex: 1}}>
         <SearchBar

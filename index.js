@@ -15,7 +15,7 @@ Navigation.events().registerAppLaunchedListener(() => {
               options: {
                 topBar: {
                   title: {
-                    text: "Weather in Cities",
+                    text: "Cities",
                   }
                 }
               }
