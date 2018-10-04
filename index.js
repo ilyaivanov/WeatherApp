@@ -5,13 +5,12 @@ registerScreens();
 
 Navigation.events().registerAppLaunchedListener(() => {
   Navigation.setRoot({
-
     root: {
       stack: {
         children: [
           {
             component: {
-              name: 'reactNativeInit.App',
+              name: 'weatherApp.Cities',
               options: {
                 topBar: {
                   title: {

@@ -9,6 +9,7 @@
   "dependencies": {
     "@babel/runtime": "^7.1.2",
     "moment": "^2.22.2",
+    "prettier": "^1.14.3",
     "react": "16.5.0",
     "react-native": "0.57.1",
     "react-native-elements": "^0.19.1",
