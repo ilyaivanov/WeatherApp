@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import {FlatList, StyleSheet} from 'react-native';
-import {View, Text, Button} from 'react-native-ui-lib';
+import {View} from 'react-native-ui-lib';
 import {Navigation} from 'react-native-navigation';
 import CityCard from "./components/CityCard";
-import Separator from "./Separator";
+import Separator from "./components/Separator";
+import {style} from './const';
+import {cities} from "./models";
 
-
-class App extends Component {
+class CitiesPage extends Component {
 
   constructor(props) {
     super(props);
@@ -33,7 +34,7 @@ class App extends Component {
         stack: {
           children: [{
             component: {
-              name: 'blog.AddPost',
+              name: 'weatherApp.AddCity',
             }
           }]
         }
@@ -51,7 +52,10 @@ class App extends Component {
   pushScreen(city) {
     Navigation.push(this.props.componentId, {
       component: {
-        name: 'reactNativeInit.Screen1',
+        name: 'weatherApp.CityDetailsPage',
+        passProps: {
+          city
+        },
         options: {
           topBar: {
             title: {
@@ -64,11 +68,7 @@ class App extends Component {
   }
 
   render() {
-    const cities = [
-      {name: "Vilnius", id: 'ki', degree: '23', type: 'Heavy Cloud'},
-      {name: "Tel Aviv", id: 'tl', isLoading: true},
-      {name: "Kiev", id: 'vi', degree: '18', type: 'Snow'},
-    ];
+
 
     return (
       <View style={styles.container}>
@@ -87,9 +87,7 @@ class App extends Component {
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    backgroundColor: '#F5FCFF', //'#f5f5f5'
+    backgroundColor: style.backgroundColor,
   },
   containers: {
     padding: 20,
@@ -108,4 +106,4 @@ export const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default CitiesPage;

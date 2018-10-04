@@ -3,7 +3,7 @@ import {FlatList,} from 'react-native';
 import {Text, TouchableOpacity, View} from 'react-native-ui-lib';
 import {Navigation} from 'react-native-navigation';
 import {SearchBar} from "react-native-elements";
-import Separator from "./Separator";
+import Separator from "./components/Separator";
 
 class AddPost extends PureComponent {
 

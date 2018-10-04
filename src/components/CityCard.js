@@ -1,8 +1,6 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View, ActivityIndicator} from "react-native";
+import {ActivityIndicator, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import React from "react";
 import WeatherInfo from "./WeatherInfo";
-
-
 
 export default ({city, onPress}) => (
   <TouchableOpacity style={styles.cardContainer} onPress={() => onPress(city)}>
