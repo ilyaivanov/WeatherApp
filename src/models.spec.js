@@ -6,6 +6,7 @@ it("should map response with weather details into local format", function() {
     id: "44418",
     degree: "20",
     type: "Heavy Cloud",
+    dayOfWeek:'Thursday',
     date: "October 4th",
     iconName: "hc",
     isLoading: false,
@@ -19,6 +20,7 @@ it("should map history of the city", function() {
   const history = mapCityDetails(sampleCityResponse).history;
   expect(history[0].type).toBe("Heavy Cloud");
   expect(history[0].degree).toBe("20");
+  expect(history[0].dayOfWeek).toBe("Thursday");
   expect(history[0].date).toBe("October 4th");
 
   expect(history[5].type).toBe("Light Cloud");

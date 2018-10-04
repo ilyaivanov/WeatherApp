@@ -33,7 +33,8 @@ const mapHistoryDate = history => ({
   type: history.weather_state_name,
   iconName: history.weather_state_abbr,
   degree: history.the_temp.toFixed(0),
-  date: moment(history.applicable_date, "YYYY-MM-DD").format("MMMM Do")
+  date: moment(history.applicable_date, "YYYY-MM-DD").format("MMMM Do"),
+  dayOfWeek: moment(history.applicable_date, "YYYY-MM-DD").format("dddd"),
 });
 
 const mapCityWithoutWeather = responseCityDetails => ({

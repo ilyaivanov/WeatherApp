@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   },
   weatherTypeText: {
     fontSize: 14,
-    marginTop: 10,
+    marginTop: 5,
     color: "#424242",
     textAlign: "center"
   }

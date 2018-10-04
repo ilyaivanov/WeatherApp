@@ -5,14 +5,10 @@ import { Navigation } from "react-native-navigation";
 import CityCard from "./components/CityCard";
 import Separator from "./components/Separator";
 import { style } from "./const";
-import { cities, mapCityDetails } from "./models";
+import { cities } from "./models";
 import update from "immutability-helper";
 import { findIndexById } from "./array.utils";
-
-const l = e => {
-  console.log(e);
-  return e;
-};
+import { getCityDetails } from "./remote";
 
 class CitiesPage extends Component {
   state = {
@@ -21,12 +17,11 @@ class CitiesPage extends Component {
 
   constructor(props) {
     super(props);
-    this.pushScreen = this.pushScreen.bind(this);
     Navigation.events().bindComponent(this);
   }
 
   componentDidMount() {
-    this.fetchCityDetails(this.state.cities[0].id);
+    this.state.cities.forEach(city => this.fetchCityDetails(city.id));
 
     Navigation.events().registerCommandListener((eventName, payload) => {
       if (eventName === "dismissModal" && payload.componentId === "AddCity") {
@@ -38,19 +33,15 @@ class CitiesPage extends Component {
     });
   }
 
-  fetchCityDetails = cityId => {
-    fetch(`https://www.metaweather.com/api/location/${cityId}/`)
-      .then(response => response.json())
-      .then(details => {
-        const cities = update(this.state.cities, {
-          [findIndexById(this.state.cities, cityId)]: {
-            $merge: mapCityDetails(details)
-          }
-        });
-
-        this.setState({ cities });
+  fetchCityDetails = cityId =>
+    getCityDetails(cityId).then(details => {
+      const cities = update(this.state.cities, {
+        [findIndexById(this.state.cities, cityId)]: {
+          $merge: details
+        }
       });
-  };
+      this.setState({ cities });
+    });
 
   static get options() {
     return {
@@ -82,10 +73,7 @@ class CitiesPage extends Component {
     }
   }
 
-  // navigator: PropTypes.object,
-  // componentId: PropTypes.string
-
-  pushScreen(city) {
+  pushDetailsPage = city =>
     Navigation.push(this.props.componentId, {
       component: {
         name: "weatherApp.CityDetailsPage",
@@ -101,7 +89,6 @@ class CitiesPage extends Component {
         }
       }
     });
-  }
 
   render() {
     return (
@@ -112,7 +99,7 @@ class CitiesPage extends Component {
           contentContainerStyle={styles.containers}
           ItemSeparatorComponent={() => <Separator />}
           renderItem={({ item }) => (
-            <CityCard city={item} onPress={this.pushScreen} />
+            <CityCard city={item} onPress={this.pushDetailsPage} />
           )}
         />
       </View>
@@ -126,7 +113,7 @@ export const styles = StyleSheet.create({
     backgroundColor: style.backgroundColor
   },
   containers: {
-    padding: 20,
+    padding: 10,
     flex: 1,
     justifyContent: "center"
   },

@@ -4,42 +4,36 @@ import { Text, View } from "react-native-ui-lib";
 import Separator from "./components/Separator";
 import WeatherInfo from "./components/WeatherInfo";
 import { style } from "./const";
+import CityCard from "./components/CityCard";
 
 class CityDetailsPage extends PureComponent {
   render() {
     const { city } = this.props;
+    console.log(city)
     return (
       <View style={styles.container}>
         <FlatList
+          contentContainerStyle={styles.listContainer}
           keyExtractor={item => item.date}
           data={city.history}
           ItemSeparatorComponent={() => <Separator />}
-          renderItem={({ item }) => <Day dayInfo={item} />}
+          renderItem={({ item }) => (
+            <CityCard city={{ ...item, name: item.dayOfWeek, parent: item.date}} />
+          )}
         />
       </View>
     );
   }
 }
 
-const Day = ({ dayInfo }) => (
-  <View style={styles.date}>
-    <View>
-      <Text>{dayInfo.date}</Text>
-    </View>
-    <WeatherInfo city={dayInfo} />
-  </View>
-);
-
 const styles = StyleSheet.create({
   container: {
     backgroundColor: style.backgroundColor,
     flex: 1
   },
-  date: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: 10
+  listContainer: {
+    paddingLeft: 10,
+    paddingRight: 10
   }
 });
 
