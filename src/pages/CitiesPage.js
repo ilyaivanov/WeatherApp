@@ -1,14 +1,10 @@
-import React, { Component } from "react";
-import { FlatList, StyleSheet } from "react-native";
-import { connect } from "remx";
-import { View } from "react-native-ui-lib";
-import { Navigation } from "react-native-navigation";
-
-import CityCard from "../components/CityCard";
-import Separator from "../components/Separator";
-import { style } from "../const";
-import { storeGetters, storeSetters } from "../state/store";
-import { fetchCityDetails } from "../state/actions";
+import React, {Component} from "react";
+import {Button, StyleSheet, View} from "react-native";
+import {connect} from "remx";
+import {Navigation} from "react-native-navigation";
+import {style} from "../const";
+import {storeGetters, storeSetters} from "../state/store";
+import {fetchCityDetails} from "../state/actions";
 
 class CitiesPage extends Component {
   constructor(props) {
@@ -40,7 +36,7 @@ class CitiesPage extends Component {
     };
   }
 
-  navigationButtonPressed({ buttonId }) {
+  navigationButtonPressed({buttonId}) {
     if (buttonId === "addPost") {
       Navigation.showModal({
         stack: {
@@ -74,18 +70,37 @@ class CitiesPage extends Component {
       }
     });
 
+  showModals = () => {
+    Navigation.showModal({
+      stack: {
+        children: [{
+          component: {
+            name: 'example.ModalScreen',
+            options: {
+              topBar: {
+                background:{
+                  color:'red'
+                },
+                title: {
+                  text: 'Modal42'
+                },
+              }
+            }
+          }
+        }]
+      }
+    })
+
+    ;
+    // setTimeout(() => {
+    //   Navigation.dismissModal('someId');
+    // }, 2000)
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <FlatList
-          keyExtractor={item => item.id}
-          data={this.props.cities}
-          contentContainerStyle={styles.containers}
-          ItemSeparatorComponent={() => <Separator />}
-          renderItem={({ item }) => (
-            <CityCard city={item} onPress={this.pushDetailsPage} />
-          )}
-        />
+        <Button title="Show two modals" onPress={this.showModals}/>
       </View>
     );
   }
